@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      show-details: never
+
+  # Boot 3.3+ Datadog path
+  datadog:
+    metrics:
+      export:
+        enabled: true
+        api-key: ${DD_API_KEY}              # from  .env
+        uri: https://api.us3.datadoghq.com  # US3
+        step: 30s
+
+  metrics:
+    tags:
+      application: orders-api
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      percentiles:
+        http.server.requests: 0.5,0.95,0.99
